@@ -4,3 +4,22 @@ aws budgets create-budget \
     --account-id $AWS_ACCOUNT_ID \
     --budget file://aws/json/budget.json \
     --notifications-with-subscribers file://aws/json/budget-notifications-with-subscribers.json
+
+https://docs.aws.amazon.com/cli/latest/reference/sns/create-topic.html#examples
+#SNS Topic for Billing Alarm
+aws sns create-topic \
+    --name billing-alarm
+
+
+https://docs.aws.amazon.com/cli/latest/reference/sns/subscribe.html#examples
+#Subscription to SNS topic
+aws sns subscribe \
+    --topic-arn arn:aws:sns:<REGION>:<ACCOUNT_ID>:<SNS_TOPIC_NAME> \
+    --protocol email \
+    --notification-endpoint <EMAIL>
+
+#Remember to confirm email in order to change subscription ID from "Pending Confimation"
+    
+
+#Check subscription status
+aws sns list-subscriptions-by-topic --topic-arn ARN-LINK
