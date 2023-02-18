@@ -16,7 +16,7 @@
   
 - ### Create Admin User with MFA turned on
 
-**insert image**
+![IAM Dashboard](assets/Admin-User-with-MFA.png)
   
 
 - ### AWS CLI installation
@@ -25,12 +25,79 @@ Installation done on Gitpod via a Linux instance ([YAML File run upon instance l
 
   
 - ### Create Billing Alarm
-programmatically and via console
-***Insert screenshot***
+	### Point-and-Click Via AWS Console (2 ways)
+	
+ 1. Via the CloudWatch Management Console
+     - Click on ***Billing Preferences*** on the sidebar menu of your Billing Dashboard; check the appropriate checkboxes and click on the hyperlink ***Manage Billing Alerts.*** This takes you to the **CloudWatch Management Console**.
+     - To the left of the console, click on ***Alarms*** and ***Create Alarm***. It is worth noting that Billing metric data is stored in the **US East (N. Virginia) Region** and represents worldwide charges.
+     - Fill out the form and configure notification action as to when you want the alarm to be triggered in either of **3 states (In Alarm, OK, Insufficient Data).** 
+     - When alarm is triggered, you need to have an SNS topic or you can create one as you fill out the form
+     - Note that with the **AWS Free Tier**, you have **only 10 alarms** at your disposal.
+
+![Screenshot of CloudWatch Billing Alarm Page](assets/CloudWatch-Billing-Alarm-Page.png)
+
+
+
+ 2. Via the Budgets (Alarm bundled with budget)
+     - Click on ***Budgets*** on the left side of the ***Billing Dashboard*** and select ***Create Budget***. This is a **Global Service** so region defaults to Global
+     - You can create **2 free budgets** under the **AWS Free Tier**
+     - Follow the budget setup prompts; for easy setup, select ***use a template(simplified).*** 
+     - You can create a **zero spend budget** where you’re alerted when your **spending exceeds $0.01 above free tier limits**
+     - For monthly cost budget, you can set your budget amount and you’ll get notified when actual spend reaches 85 and 100% and if your forecasted spend is expected to reach 100%
+
+### Programmatically via AWS CLI
+  - Using the AWS Command Reference as a guide, setting billing alarms requires the use of the AWS CloudWatch API. The commands below were used to create a billing alarm.
+	  
+  - [CloudWatch Put Metric Alarm Reference](https://docs.aws.amazon.com/cli/latest/reference/cloudwatch/put-metric-alarm.html):
+      ```bash
+      aws cloudwatch put metic-alarm —cli-input-json file://aws/json/alarm-config.json
+      ```
+      The JSON files referenced in code above can be viewed here:
+      - [file://aws/json/alarm-config.json](../../../blob/main/aws/json/alarm-config.json)
+    
 
 - ### Create a Budget
-programmatically and via console
-***Insert screenshot***
+	- Point-and-Click Via AWS Console
+	  - Always set your budget up before spinning resource 
+	  ![Screenshot of Budgets Page](assets/Budget-Page.png)
+
+
+
+- Programmatically via AWS CLI
+  - Using the AWS Command Reference as a guide, setting billing alarms requires the use of the AWS Budgets API. The commands below were used to create a budget and billing alarm.
+	  
+  - [Budget Creation](https://docs.aws.amazon.com/cli/latest/reference/budgets/create-budget.html#examples):
+      ```bash
+      aws budgets create-budget \
+      --account-id $AWS_ACCOUNT_ID \
+      --budget [file://aws/json/budget.json](../../../blob/main/aws/json/budget.json) \
+      --notifications-with-subscribers [file://aws/json/budget-notifications-with-subscribers.json](../../../blob/aws/json/budget-notifications-with-subscribers.json)
+      ```
+      
+    The JSON files referenced in code above can be viewed here:
+      - [file://aws/json/budget.json](../../../blob/main/aws/json/budget.json)
+      - [file://aws/json/budget-notifications-with-subscribers.json](../../../blob/main/aws/json/budget-notifications-with-subscribers.json)
+		
+	
+  - [SNS Topic Creation for Billing Alarm](https://docs.aws.amazon.com/cli/latest/reference/sns/create-topic.html#examples):
+      ```bash
+      aws sns create-topic \
+      --name <ALARM NAME>
+      ```			
+
+
+  - [Subscription to SNS Topic](https://docs.aws.amazon.com/cli/latest/reference/sns/subscribe.html#examples):
+      ```bash
+      aws sns subscribe \
+      --topic-arn arn:aws:sns:<REGION>:<ACCOUNT_ID>:<SNS_TOPIC_NAME> \
+      --protocol email \
+      --notification-endpoint <PREFERED EMAIL ADDRESS>
+      ```		
+		
+  - Remember to confirm email in order to change subscription ID from "Pending Confimation". Check subscription status by entering the command below:
+      ```bash
+      aws sns list-subscriptions-by-topic --topic-arn arn:aws:sns:<REGION>:<ACCOUNT_ID>:<SNS_TOPIC_NAME>
+      ```
 
   
 
