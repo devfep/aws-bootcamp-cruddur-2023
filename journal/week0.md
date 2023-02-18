@@ -21,7 +21,7 @@
 
 - ### AWS CLI installation
 
-**Reference gp yaml file**
+Installation done on Gitpod via a Linux instance ([YAML File run upon instance launch](../../../blob/main/.gitpod.yml))
 
   
 - ### Create Billing Alarm
