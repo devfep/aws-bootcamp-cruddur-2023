@@ -5,13 +5,14 @@
 
 - ### Recreate Conceptual Diagram in Lucidchart
 
-**insert image**
-**insert link**
+![Cruddur App Conceptual Diagram](assets/Cruddur-Conceptual-Diagram.png)
+[View Conceptual Diagram on Lucidchart](https://lucid.app/lucidchart/9cb9392e-ab3a-4e53-8f16-c596915ca900/edit?viewport_loc=22%2C312%2C1516%2C875%2C0_0&invitationId=inv_ac87ca6d-8003-4050-bf67-c341a4758288)
+
 
 - ### Recreate Logical Architectual Diagram in Lucidchart
 
-**insert image**
-**insert link**
+![Cruddur Logical Architectural Diagram](assets/Cruddur-Logical-Architectural-Diagram.png)
+[View Logical Architectural Diagram on Lucidchart](https://lucid.app/lucidchart/e471f916-7b0e-4c07-bc98-6b773b646997/edit?viewport_loc=-338%2C113%2C2133%2C1231%2C0_0&invitationId=inv_d00fae29-b1ee-46d9-8116-46a036fd1cc7)
   
 - ### Create Admin User with MFA turned on
 
@@ -37,6 +38,7 @@ programmatically and via console
 ## Homework Challenges
 
  - Set up custom password policy: This is to minimize the use of root user account to reset IAM User passwords. Also, I enabled 'Allow users to change their own password', and only after password expiration within 30 days that I will have to use the root user account if IAM user forgets to rotate their password.
+ ![Screenshot of custom password policy setting page](assets/Set-Custom-Password-Policy.png)
 
 - Review the AWS Well-Architected Tool 
 
